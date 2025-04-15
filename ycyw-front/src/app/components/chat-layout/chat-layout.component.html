@@ -1,0 +1,75 @@
+<div class="chat-container">
+  <div class="conversations-list">
+    <div class="conversations-header">
+      <div class="header-content">
+        <h2>Conversations</h2>
+        <div class="header-buttons">
+          <button (click)="newConversation()" class="new-conversation-button">
+            Nouvelle conversation
+          </button>
+          <button (click)="logout()" class="logout-button">Déconnexion</button>
+        </div>
+      </div>
+    </div>
+    <div class="conversations">
+      @if (conversationsLoading) {
+      <div class="loading">
+        <p>Chargement des conversations...</p>
+      </div>
+      } @else if (conversationsError) {
+      <div class="error">
+        <p>{{ conversationsError }}</p>
+      </div>
+      } @else { @for (conversation of conversations; track conversation.id) {
+      <div
+        class="conversation-item"
+        [class.selected]="selectedConversation?.id === conversation.id"
+        (click)="selectConversation(conversation)"
+      >
+        <div class="conversation-info">
+          <h3>Conversation {{ conversation.id }}</h3>
+        </div>
+      </div>
+      } }
+    </div>
+  </div>
+
+  <div class="chat-window">
+    @if (selectedConversation) {
+    <div class="chat-header">
+      <h2>Conversation {{ selectedConversation.id }}</h2>
+    </div>
+    <div class="messages-container">
+      <div class="messages">
+        @for (message of getSortedMessages(); track message.id) {
+        <div
+          class="message"
+          [class.sent]="isCurrentUser(message.author)"
+          [class.received]="!isCurrentUser(message.author)"
+        >
+          <div class="message-content">
+            <p>{{ message.content }}</p>
+            <span class="message-time">{{
+              formatMessageTimestamp(message.createdAt)
+            }}</span>
+          </div>
+        </div>
+        }
+      </div>
+      <div class="message-input">
+        <input
+          type="text"
+          [(ngModel)]="newMessage"
+          placeholder="Écris un message..."
+          (keyup.enter)="sendMessage()"
+        />
+        <button (click)="sendMessage()">Envoyer</button>
+      </div>
+    </div>
+    } @else {
+    <div class="no-conversation">
+      <p>Sélectionner une conversation</p>
+    </div>
+    }
+  </div>
+</div>

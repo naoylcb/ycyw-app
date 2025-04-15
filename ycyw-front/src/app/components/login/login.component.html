@@ -1,0 +1,55 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+        />
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
+        {
+        <div class="invalid-feedback">Please enter a valid email address</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        />
+        @if (loginForm.get('password')?.invalid &&
+        loginForm.get('password')?.touched) {
+        <div class="invalid-feedback">Password is required</div>
+        }
+      </div>
+
+      @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+      }
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+</div>

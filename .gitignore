@@ -1,0 +1,13 @@
+# Front
+
+/ycyw-front/node_modules
+/ycyw-front/.vscode
+/ycyw-front/.angular/cache
+/ycyw-front/dist/
+/ycyw-front/out-tsc
+
+# Back
+
+/ycyw-api/target
+/ycyw-api/build
+/ycyw-api/out
